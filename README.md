@@ -7,17 +7,30 @@
 opcode: 32 bits
 query_id: 64 bits
 signature: 512 bit
-to_address: address
-amount: coins
-treasury: address
-amount_to_burn: coins
+cell:
+    address (user's jetton wallet)
+    amount: coins
+    cell:
+        opcode: 32 bits (internal_transfer)
+        query_id: 64 bits
+        jetton_amount: coins
+        ...
+cell:
+    address (treasury's jetton wallet)
+    amount: coins
+    cell:
+        opcode: 32 bits (internal_transfer)
+        query_id: 64 bits
+        jetton_amount: coins
+        ...
 nonce: 16 bits
-```
 
 # Пример подписи на nodejs
 ```
-import { sign } from '@ton/crypto';
+import { sign, mnemonicToWalletKey, KeyPair } from '@ton/crypto';
 ...
+const mnemonic : string = "your mnemonic";
+const key : KeyPair = await mnemonicToWalletKey(mnemonic.split(" "));
 let toSign = beginCell()
     .endCell();
 let signature = sign(toSign.hash(), privKey);
