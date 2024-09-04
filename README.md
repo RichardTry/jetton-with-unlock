@@ -24,7 +24,7 @@ cell:
         jetton_amount: coins
         ...
 nonce: 16 bits
-
+```
 # Пример подписи на nodejs
 ```
 import { sign, mnemonicToWalletKey, KeyPair } from '@ton/crypto';
